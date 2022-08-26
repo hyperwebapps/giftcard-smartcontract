@@ -1,3 +1,11 @@
+## ENV File
+
+You need to create a .env file with theese parameters:
+
+```shell
+PRIVATE_KEY_OWNER = string
+```
+
 # Advanced Sample Hardhat Project
 
 This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.

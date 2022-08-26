@@ -1,19 +1,63 @@
+import "dotenv/config";
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
-describe("Greeter", function () {
-  it("Should return the new greeting once it's changed", async function () {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
-    await greeter.deployed();
+const appleHash: string = process.env.APPLE_HASH || "";
+const greencardHash: string = process.env.GREENCARD_HASH || "";
+const googleHash: string = process.env.GOOGLE_HASH || "";
+const ottoHash: string = process.env.OTTO_HASH || "";
+const robloxHash: string = process.env.ROBLOX_HASH || "";
 
-    expect(await greeter.greet()).to.equal("Hello, world!");
+describe("GiftCard Story #1", function () {
+  let contractAddress: string = "";
+  let counter = 0;
 
-    const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
+  this.beforeAll(async () => {
+    const GiftCard = await ethers.getContractFactory("GiftCard");
+    const contract = await GiftCard.deploy();
+    await contract.deployed();
 
-    // wait until the transaction is mined
-    await setGreetingTx.wait();
+    contractAddress = contract.address;
+    console.log(contractAddress);
+  });
 
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
+  it("add apple gift card", async () => {
+    const contract = await ethers.getContractAt("GiftCard", contractAddress);
+    const tx = await contract.functions.addCard(appleHash, 30, counter);
+    await tx.wait();
+    expect(await contract.cardSize()).to.equal(1);
+    counter++;
+  });
+
+  it("add greencard gift card", async () => {
+    const contract = await ethers.getContractAt("GiftCard", contractAddress);
+    const tx = await contract.functions.addCard(greencardHash, 30, counter);
+    await tx.wait();
+    expect(await contract.cardSize()).to.equal(2);
+    counter++;
+  });
+
+  it("add google gift card", async () => {
+    const contract = await ethers.getContractAt("GiftCard", contractAddress);
+    const tx = await contract.functions.addCard(googleHash, 30, counter);
+    await tx.wait();
+    expect(await contract.cardSize()).to.equal(3);
+    counter++;
+  });
+
+  it("add otto gift card", async () => {
+    const contract = await ethers.getContractAt("GiftCard", contractAddress);
+    const tx = await contract.functions.addCard(ottoHash, 30, counter);
+    await tx.wait();
+    expect(await contract.cardSize()).to.equal(4);
+    counter++;
+  });
+
+  it("add roblox gift card", async () => {
+    const contract = await ethers.getContractAt("GiftCard", contractAddress);
+    const tx = await contract.functions.addCard(robloxHash, 30, counter);
+    await tx.wait();
+    expect(await contract.cardSize()).to.equal(5);
+    counter++;
   });
 });

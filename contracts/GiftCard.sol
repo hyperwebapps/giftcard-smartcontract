@@ -62,6 +62,8 @@ contract GiftCard is ERC20, Ownable {
       revert InsufficientBalance();
     }
 
+    _transfer(msg.sender, address(this), cards[_id].price);
+
     purchasedCards[msg.sender].push(
       PurchasedCard({ id: _id, timestamp: block.timestamp })
     );

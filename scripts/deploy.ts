@@ -1,12 +1,12 @@
-import { ethers } from 'hardhat';
+import { ethers } from "hardhat";
 
 async function main() {
-  const Greeter = await ethers.getContractFactory('GiftCard');
-  const greeter = await Greeter.deploy();
+  const GiftCard = await ethers.getContractFactory("GiftCard");
+  const contract = await GiftCard.deploy();
 
-  await greeter.deployed();
+  await contract.deployed();
 
-  console.log('GiftCard deployed to:', greeter.address);
+  console.log("GiftCard deployed to:", contract.address);
 }
 
 main().catch((error) => {
